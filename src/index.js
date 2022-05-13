@@ -269,6 +269,8 @@ export default class RNPickerSelect extends PureComponent {
                     value={item.value}
                     key={item.key || item.label}
                     style={{color: item.color, backgroundColor: item.backgroundColor}}
+                    color={item.color}
+                    backgroundColor={item.backgroundColor}
                 />
             );
         });
