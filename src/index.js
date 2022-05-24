@@ -57,6 +57,7 @@ export default class RNPickerSelect extends PureComponent {
         // Custom Icon
         Icon: PropTypes.func,
         InputAccessoryView: PropTypes.func,
+        customStyle: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -85,6 +86,7 @@ export default class RNPickerSelect extends PureComponent {
         touchableWrapperProps: {},
         Icon: null,
         InputAccessoryView: null,
+        customStyle: false,
     };
 
     static handlePlaceholder({ placeholder }) {
@@ -390,14 +392,14 @@ export default class RNPickerSelect extends PureComponent {
 
         if (children) {
             return (
-                <View pointerEvents="box-only" style={containerStyle}>
+                <View style={containerStyle}>
                     {children}
                 </View>
             );
         }
 
         return (
-            <View pointerEvents="box-only" style={containerStyle}>
+            <View style={containerStyle}>
                 <TextInput
                     testID="text_input"
                     style={[
@@ -477,10 +479,12 @@ export default class RNPickerSelect extends PureComponent {
             onOpen,
             touchableWrapperProps,
             fixAndroidTouchableBug,
+            customStyle,
         } = this.props;
         const { selectedItem } = this.state;
 
         const Component = fixAndroidTouchableBug ? View : TouchableOpacity;
+        
         return (
             <Component
                 testID="android_touchable_wrapper"
@@ -495,12 +499,21 @@ export default class RNPickerSelect extends PureComponent {
                             Icon ? { backgroundColor: 'transparent' } : {}, // to hide native icon
                             defaultStyles.headlessAndroidPicker,
                             style.headlessAndroidPicker,
+                            customStyle && {
+                                width: "10%",
+                                height: "100%",
+                                backgroundColor: "transparent",
+                                opacity: 1,
+                                alignSelf: "flex-end"
+                            },
                         ]}
                         testID="android_picker_headless"
                         enabled={!disabled}
                         onValueChange={this.onValueChange}
                         selectedValue={selectedItem.value}
                         {...pickerProps}
+                        dropdownIconColor={"white"}
+                        dropdownIconRippleColor={'white'}
                     >
                         {this.renderPickerItems()}
                     </Picker>
